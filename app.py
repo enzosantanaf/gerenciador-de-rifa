@@ -1,9 +1,12 @@
+import random
+
 rifa = []
+total_bilhetes = 3
 
 
 def verificar_numero_bilhete(numero_bilhete_informado, rifa):
-    if numero_bilhete_informado not in range(1, 100+1):
-        print('\nErro: Informe um número entre 1 e 100.\n')
+    if numero_bilhete_informado not in range(1, total_bilhetes+1):
+        print(f'\nErro: Informe um número entre 1 e {total_bilhetes}.\n')
         return False
     for bilhete in rifa:
         numero_bilhete_vendido = bilhete['numero_bilhete']
@@ -25,15 +28,28 @@ def registro_venda():
                 }
                 return venda_bilhete
         except:
-            print('\nNúmero do bilhete inválido. Informe um número entre 1 e 100.\n')
+            print(f'\nNúmero do bilhete inválido. Informe um número entre 1 e {total_bilhetes}.\n')
 
 
 def resumo_vendas(rifa):
-    total_bilhetes = 100
     bilhetes_vendidos = len(rifa)
     bilhetes_disponiveis = total_bilhetes - bilhetes_vendidos
     return bilhetes_vendidos, bilhetes_disponiveis
         
+
+def sorteador(rifa):
+    random.shuffle(rifa)
+    bilhete_escolhido = random.choice(rifa)
+    return bilhete_escolhido
+
+
+def resultado_sorteio(bilhete_sorteado):
+    nome_ganhador = bilhete_sorteado['nome_comprador']
+    numero_bilhete_escolhido = bilhete_sorteado['numero_bilhete']
+    resultado_sorteio = f'\n\n\nSorteio realizado!!!\nO ganhador é {nome_ganhador}, bilhete {numero_bilhete_escolhido}!\n\n'
+    return resultado_sorteio
+    
+
 
 
 while True:
@@ -43,14 +59,39 @@ while True:
     
     bilhetes_vendidos, bilhetes_disponiveis = resumo_vendas(rifa)
     print(f'Bilhetes vendidos: {bilhetes_vendidos} | Bilhetes disponíveis: {bilhetes_disponiveis}\n')
-    
-    iniciar_sorteio = input('\nPressione qualquer tecla para registrar uma nova venda.\nPara iniciar o sorteio, digite "iniciar".\n\n> ')
-    iniciar_sorteio = iniciar_sorteio.upper()
 
-    if iniciar_sorteio == 'INICIAR':
+    if bilhetes_disponiveis != 0:
+        iniciar_sorteio = input('\nPressione qualquer tecla para registrar uma nova venda.\nPara iniciar o sorteio, digite "iniciar".\n\n> ')
+        iniciar_sorteio = iniciar_sorteio.upper()
+        
+        if iniciar_sorteio == 'INICIAR':
+            bilhete_sorteado = sorteador(rifa)
+            print(resultado_sorteio(bilhete_sorteado))
+            
+            print('\n\nDejesa iniciar uma nova rifa?')
+            nova_rifa = input('\nDigite "iniciar" para começar uma nova rifa \nou pressione qualquer tecla para encerrar o programa.\n> ')
+            nova_rifa = nova_rifa.upper()
+            
+            if nova_rifa != 'INICIAR':
+                print('Fim do programa!')
+                break
+            
+            rifa = []
+            
+        continue
+
+    print('Todos os bilhetes foram vendidos. Pressione qualquer tecla para começar o sorteio.')
+    iniciar_sorteio = input('> ')
+    bilhete_sorteado = sorteador(rifa)
+    print(resultado_sorteio(bilhete_sorteado))
+    
+    print('\n\nDejesa iniciar uma nova rifa?')
+    nova_rifa = input('\nDigite "iniciar" para começar uma nova rifa \nou pressione qualquer tecla para encerrar o programa.\n> ')
+    nova_rifa = nova_rifa.upper()
+    
+    if nova_rifa != 'INICIAR':
+        print('Fim do programa!')
         break
     
-    if bilhetes_disponiveis == 0:
-        print('Todos os bilhetes foram vendidos. Pressione qualquer tecla para começar o sorteio.')
-        iniciar_sorteio = input('> ')
-        break
+    rifa = []
+    
