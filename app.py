@@ -94,6 +94,3 @@ while True:
         break
     
     rifa = []
-    
-    # testando git push sem senha
-    
