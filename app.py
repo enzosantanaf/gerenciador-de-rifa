@@ -1,10 +1,6 @@
 import random
 
-rifa = []
-total_bilhetes = 3
-
-
-def verificar_numero_bilhete(rifa):
+def verificar_numero_bilhete(rifa, total_bilhetes):
     try:
         numero_bilhete_informado = int(input('Informe o número do bilhete. \n> '))
         if numero_bilhete_informado not in range(1, total_bilhetes+1):
@@ -23,10 +19,10 @@ def verificar_numero_bilhete(rifa):
         return False
 
 
-def registro_venda():
+def registro_venda(rifa, total_bilhetes):
     nome_comprador = input('Informe o nome do comprador.\n> ')
     while True:
-        numero_bilhete = verificar_numero_bilhete(rifa)
+        numero_bilhete = verificar_numero_bilhete(rifa, total_bilhetes)
         if numero_bilhete != False:
             venda_bilhete = {
                 'nome_comprador': nome_comprador,
@@ -35,7 +31,7 @@ def registro_venda():
             return venda_bilhete
 
 
-def resumo_vendas(rifa):
+def resumo_vendas(rifa, total_bilhetes):
     bilhetes_vendidos = len(rifa)
     bilhetes_disponiveis = total_bilhetes - bilhetes_vendidos
     return bilhetes_vendidos, bilhetes_disponiveis
@@ -71,12 +67,14 @@ def nova_rifa():
     
 # Iniciando programa principal
 if __name__ == '__main__':
+    rifa = []
+    total_bilhetes = 5
     while True:
-        venda_bilhete = registro_venda()
+        venda_bilhete = registro_venda(rifa, total_bilhetes)
         rifa.append(venda_bilhete)
         print(f'Venda concluída! Bilhete {venda_bilhete["numero_bilhete"]} vendido para {venda_bilhete["nome_comprador"]}.')
 
-        bilhetes_vendidos, bilhetes_disponiveis = resumo_vendas(rifa)
+        bilhetes_vendidos, bilhetes_disponiveis = resumo_vendas(rifa, total_bilhetes)
         print(f'Bilhetes vendidos: {bilhetes_vendidos} | Bilhetes disponíveis: {bilhetes_disponiveis}\n')
 
         if bilhetes_disponiveis != 0:
