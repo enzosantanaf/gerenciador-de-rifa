@@ -27,7 +27,7 @@ def registro_venda():
                     'numero_bilhete': numero_bilhete
                 }
                 return venda_bilhete
-        except:
+        except ValueError:
             print(f'\nNúmero do bilhete inválido. Informe um número entre 1 e {total_bilhetes}.\n')
 
 
